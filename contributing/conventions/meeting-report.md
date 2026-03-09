@@ -9,24 +9,102 @@ Substitute actual week and meeting numbers for N and M.
 
 ## General rules
 
-- **Language**: Always write the report in English. Use a neutral, professional tone. Translate quotes and terminology as needed. For domain-specific terms, keep the original alongside the English translation in parentheses (e.g., "sprint review (ревью спринта)") to avoid ambiguity.
-- **Output format**: Write the report in Markdown using the heading structure defined below. Write each sentence on its own line so that individual lines can be referenced by line number.
-- **Speaker references**: Use speaker labels from the transcript (e.g., Speaker A, Speaker B). If the transcript uses real names instead of labels, replace them with Speaker A/B/C in order of first appearance.
-- **No personal information**: Never include real names, email addresses, phone numbers, physical addresses, social media handles, company names, project code names, client names, or any other personally identifiable information (PII) in the report. Redact or replace all such references with generic labels (e.g., "Speaker A," "the client," "the external tool," "Company X"). If a speaker mentions a specific person outside the meeting, refer to them by role (e.g., "the team lead," "the vendor contact").
-- **Attendance**: Note if any speaker joined late, left early, or was silent throughout the meeting.
-- **Skip noise**: Ignore connection issues, screen sharing problems, audio glitches, crosstalk, filler words, and other non-substantive artifacts. Focus only on meaningful content.
-- **Unclear content**: If something in the transcript is inaudible or the meaning is ambiguous, flag it with [unclear] rather than guessing.
-- **Do not infer decisions**: Only record decisions that were explicitly stated or clearly agreed upon. Do not infer consensus from silence. Proposals, hypotheticals, and "what if" suggestions that were not concluded belong in [Open questions](#open-questions), not [Decisions](#decisions).
-- **Superseded decisions**: If a later discussion in the same meeting overrides an earlier agreement, only include the final version in Decisions. Note the evolution briefly (e.g., "Initially agreed on X, later revised to Y because...").
-- **Cross-references**: When a decision leads to an action point, or an open question relates to a decision, reference it using an anchor link (see [Anchor links](#anchor-links)). This applies across all sections.
-- **Items as subsections**: Write each distinct item within a section — numbered decisions, open questions, action points, status update items, glossary terms, Q&A pairs, and discussions — as a Markdown subsection with a heading rather than a bullet list entry or blockquote. Write the content beneath the heading as prose paragraphs. This makes each item individually linkable via a Markdown anchor. Never use bold text to label items within a section. Each heading must use the format `### S.N. Label N: Title` — where `S.N.` is the two-level section number (e.g., `5.2.`), `Label` is the section label (`Decision`, `Open question`, `Action point`, `Date or deadline`, `Question and answer`, or `Discussion`), and `N` is the item number within that section (omitted for `Date or deadline`, `Question and answer`, and `Discussion`).
-- **Clean headings**: Headings must contain only the item title — no dates, consensus levels, priorities, severity tags, speaker labels, timestamps, or any other metadata. Metadata in headings breaks automatic table-of-contents generation and anchor links. Place all contextual metadata — speaker attribution, timestamp ranges, owners, priority, consensus level, and similar details — at the beginning of the first paragraph beneath the heading, highlighted with **bold**. Never append metadata to the heading or place it on a separate line before the paragraph.
-- **Anchor links**: When cross-referencing a specific item in the report, link to its subsection anchor rather than using plain text (e.g., `[Decision 1](#51-decision-1-use-postgresql-for-the-primary-data-store)` instead of "See Decision 1"). The anchor is derived from the full heading by lowercasing, removing punctuation, and replacing spaces with hyphens — so `### 5.1. Decision 1: Use PostgreSQL` becomes `#51-decision-1-use-postgresql`.
-- **Timestamps**: If the transcript includes timestamps, reference them at key moments so readers can locate the corresponding point in a recording. Always wrap timestamps in square brackets — single points as `[14:32]` and ranges as `[01:10:15–01:12:08]`. Square brackets are reserved for transcript-navigation timestamps only. Deadlines, scheduled dates, and other future times mentioned by speakers should be written as plain text (e.g., "by March 15", "next Monday at 10:00").
-- **Direct quotes vs paraphrasing**: Use direct quotes when the speaker's exact wording carries meaning — strong opinions, definitions, commitments, or memorable phrasing. Paraphrase for routine discussion.
-- **Depth calibration**: Scale the report's depth proportionally to the meeting's length and substance. A 15-minute standup should not produce the same volume as a 2-hour planning session.
-- **Off-topic digressions** (tools, mentoring, industry news, etc.) should still be captured in the relevant section (usually [Discussions](#discussions)).
-- **Recurring meetings**: If the transcript references a prior meeting or is clearly part of a series, note that context in the [Executive summary](#executive-summary).
+### Language
+
+Always write the report in English.
+Use a neutral, professional tone.
+Translate quotes and terminology as needed.
+For domain-specific terms, keep the original alongside the English translation in parentheses (e.g., "sprint review (ревью спринта)") to avoid ambiguity.
+
+### Output format
+
+Write the report in Markdown using the heading structure defined below.
+Write each sentence on its own line so that individual lines can be referenced by line number.
+
+### Speaker references
+
+Use speaker labels from the transcript (e.g., Speaker A, Speaker B).
+If the transcript uses real names instead of labels, replace them with Speaker A/B/C in order of first appearance.
+
+### No personal information
+
+Never include real names, email addresses, phone numbers, physical addresses, social media handles, company names, project code names, client names, or any other personally identifiable information (PII) in the report.
+Redact or replace all such references with generic labels (e.g., "Speaker A," "the client," "the external tool," "Company X").
+If a speaker mentions a specific person outside the meeting, refer to them by role (e.g., "the team lead," "the vendor contact").
+
+### Attendance
+
+Note if any speaker joined late, left early, or was silent throughout the meeting.
+
+### Skip noise
+
+Ignore connection issues, screen sharing problems, audio glitches, crosstalk, filler words, and other non-substantive artifacts.
+Focus only on meaningful content.
+
+### Unclear content
+
+If something in the transcript is inaudible or the meaning is ambiguous, flag it with [unclear] rather than guessing.
+
+### Do not infer decisions
+
+Only record decisions that were explicitly stated or clearly agreed upon.
+Do not infer consensus from silence.
+Proposals, hypotheticals, and "what if" suggestions that were not concluded belong in [Open questions](#open-questions), not [Decisions](#decisions).
+
+### Superseded decisions
+
+If a later discussion in the same meeting overrides an earlier agreement, only include the final version in Decisions.
+Note the evolution briefly (e.g., "Initially agreed on X, later revised to Y because...").
+
+### Cross-references
+
+When a decision leads to an action point, or an open question relates to a decision, reference it using an anchor link (see [Anchor links](#anchor-links)).
+This applies across all sections.
+
+### Items as subsections
+
+Write each distinct item within a section — numbered decisions, open questions, action points, status update items, glossary terms, Q&A pairs, and discussions — as a Markdown subsection with a heading rather than a bullet list entry or blockquote.
+Write the content beneath the heading as prose paragraphs.
+This makes each item individually linkable via a Markdown anchor.
+Never use bold text to label items within a section.
+Each heading must use the format `### S.N. Label N: Title` — where `S.N.` is the two-level section number (e.g., `5.2.`), `Label` is the section label (`Decision`, `Open question`, `Action point`, `Date or deadline`, `Question and answer`, or `Discussion`), and `N` is the item number within that section (omitted for `Date or deadline`, `Question and answer`, and `Discussion`).
+
+### Clean headings
+
+Headings must contain only the item title — no dates, consensus levels, priorities, severity tags, speaker labels, timestamps, or any other metadata.
+Metadata in headings breaks automatic table-of-contents generation and anchor links.
+Place all contextual metadata — speaker attribution, timestamp ranges, owners, priority, consensus level, and similar details — at the beginning of the first paragraph beneath the heading, highlighted with **bold**.
+Never append metadata to the heading or place it on a separate line before the paragraph.
+
+### Anchor links
+
+When cross-referencing a specific item in the report, link to its subsection anchor rather than using plain text (e.g., `[Decision 1](#51-decision-1-use-postgresql-for-the-primary-data-store)` instead of "See Decision 1").
+The anchor is derived from the full heading by lowercasing, removing punctuation, and replacing spaces with hyphens — so `### 5.1. Decision 1: Use PostgreSQL` becomes `#51-decision-1-use-postgresql`.
+
+### Timestamps
+
+If the transcript includes timestamps, reference them at key moments so readers can locate the corresponding point in a recording.
+Always wrap timestamps in square brackets — single points as `[14:32]` and ranges as `[01:10:15–01:12:08]`.
+Square brackets are reserved for transcript-navigation timestamps only.
+Deadlines, scheduled dates, and other future times mentioned by speakers should be written as plain text (e.g., "by March 15", "next Monday at 10:00").
+
+### Direct quotes vs paraphrasing
+
+Use direct quotes when the speaker's exact wording carries meaning — strong opinions, definitions, commitments, or memorable phrasing.
+Paraphrase for routine discussion.
+
+### Depth calibration
+
+Scale the report's depth proportionally to the meeting's length and substance.
+A 15-minute standup should not produce the same volume as a 2-hour planning session.
+
+### Off-topic digressions
+
+Off-topic digressions (tools, mentoring, industry news, etc.) should still be captured in the relevant section (usually [Discussions](#discussions)).
+
+### Recurring meetings
+
+If the transcript references a prior meeting or is clearly part of a series, note that context in the [Executive summary](#executive-summary).
 
 ## Instructions
 
