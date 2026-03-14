@@ -1,4 +1,62 @@
-# Advanced Agent Features
+ pytest backend/tests/unit/test_agent.py -q
+C:\Users\klimt\projects\SET\se-toolkit-lab-4\.venv\Scripts\python.exe: No module named pip
+
+no tests ran in 0.02s
+ERROR: file or directory not found: backend/tests/unit/test_agent.py
+
+(learning-management-service) 
+klimt@O_Computador MINGW64 ~/projects/SET (main)
+$ cd se-toolkit-lab-6
+(learning-management-service) 
+klimt@O_Computador MINGW64 ~/projects/SET/se-toolkit-lab-6 (1-task-call-an-llm-from-code)
+$ py -m pip install pytest
+py -m pytest backend/tests/unit/test_agent.py -q
+C:\Users\klimt\projects\SET\se-toolkit-lab-4\.venv\Scripts\python.exe: No module named pip
+F                                                                   [100%]
+================================ FAILURES ================================ 
+____________________________ test_agent_basic ____________________________ 
+
+    def test_agent_basic():
+        """Test that agent.py outputs valid JSON with required fields."""  
+        # Path to agent.py (repo root)
+        repo_root = Path(__file__).parent.parent.parent.parent
+        agent_path = repo_root / "agent.py"
+
+        # Run agent as subprocess
+        result = subprocess.run(
+            [sys.executable, str(agent_path), "What is 2+2?"],
+            capture_output=True,
+            text=True,
+            cwd=repo_root,
+            timeout=60,
+        )
+
+        # Should exit with code 0
+>       assert result.returncode == 0
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['C:\\Users\\klimt\\projects\\SET\\se-toolkit-lab-4\\.venv\\Scripts\\python.exe', 'C:\\Users\\kl...-6\\agent.py", line 13, in <module>\n    from openai import OpenAI\nModuleNotFoundError: No module named \'openai\'\n').returncode
+
+backend\tests\unit\test_agent.py:27: AssertionError
+============================ warnings summary ============================ 
+..\se-toolkit-lab-4\.venv\Lib\site-packages\_pytest\config\__init__.py:1428
+
+    self._warn_or_fail_if_strict(f"Unknown config option: {key}\n")
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================== short test summary info =========================
+FAILED backend/tests/unit/test_agent.py::test_agent_basic - assert 1 == 0
+1 failed, 1 warning in 0.40s
+(learning-management-service)
+klimt@O_Computador MINGW64 ~/projects/SET/se-toolkit-lab-6 (1-task-call-an-llm-from-code)
+$
+yncio_mode
+    self._warn_or_fail_if_strict(f"Unknown config option: {key}\n")
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================== short test summary info =========================
+FAILED backend/tests/unit/test_agent.py::test_agent_basic - assert 1 == 0
+1 failed, 1 warning in 0.40s
+(learning-management-service)# Advanced Agent Features
 
 Extend your agent with advanced capabilities that improve reliability or expand what it can answer.
 
