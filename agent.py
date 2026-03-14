@@ -165,7 +165,7 @@ def list_files(path: str) -> dict:
         return {"success": False, "error": f"Error listing files: {e}"}
 
 
-def query_api(method: str, path: str, body: str = None) -> dict:
+def query_api(method: str, path: str, body: str = None, authorize: bool = True) -> dict:
     """
     Call the backend API.
 
@@ -173,6 +173,7 @@ def query_api(method: str, path: str, body: str = None) -> dict:
         method: HTTP method (GET, POST, PUT, DELETE, PATCH)
         path: API endpoint path (e.g., /items/)
         body: Optional JSON request body (as string)
+        authorize: Whether to include Authorization header (default: True)
 
     Returns:
         Dict with 'success', 'status_code', 'body', and optionally 'error'.
@@ -200,7 +201,7 @@ def query_api(method: str, path: str, body: str = None) -> dict:
     
     # Build headers
     headers = {}
-    if lms_api_key:
+    if lms_api_key and authorize:
         headers["Authorization"] = f"Bearer {lms_api_key}"
     
     # Build request
@@ -278,7 +279,7 @@ def get_tool_definitions() -> list[dict]:
             "type": "function",
             "function": {
                 "name": "query_api",
-                "description": "Call the backend API to query data or test endpoints. Use this for questions about database contents, API behavior, status codes, or runtime errors. The API requires authentication which is handled automatically.",
+                "description": "Call the backend API to query data or test endpoints. Use this for questions about database contents, API behavior, status codes, or runtime errors. For testing authentication errors, set authorize=false to send requests without credentials.",
                 "parameters": {
                     "type": "object",
                     "properties": {
@@ -293,6 +294,10 @@ def get_tool_definitions() -> list[dict]:
                         "body": {
                             "type": "string",
                             "description": "Optional JSON request body as a string (for POST/PUT requests)"
+                        },
+                        "authorize": {
+                            "type": "boolean",
+                            "description": "Whether to include Authorization header (default: true). Set to false to test authentication errors (e.g., getting 401/403 status codes)"
                         }
                     },
                     "required": ["method", "path"]
@@ -328,13 +333,15 @@ You have access to three tools:
 - Asked about API behavior (status codes, responses)
 - Asked to test an endpoint or find errors
 - Asked about runtime behavior or completion rates
+- Asked about authentication errors (use authorize=false to test without credentials)
 
 ## Strategy:
 1. For wiki questions: use `read_file` on the relevant wiki file
 2. For source code questions: use `read_file` on the relevant source file
 3. For data questions: use `query_api` with the appropriate endpoint
-4. For API errors: use `query_api` to reproduce the error, then `read_file` to find the bug
-5. For complex questions: combine multiple tools as needed
+4. For authentication errors (e.g., "What status code without auth?"): use `query_api` with authorize=false
+5. For API errors: use `query_api` to reproduce the error, then `read_file` to find the bug in source code
+6. For complex questions: combine multiple tools as needed
 
 ## Output format:
 - Provide concise, accurate answers
@@ -376,8 +383,9 @@ def execute_tool(name: str, args: dict) -> str:
         method = args.get("method", "GET")
         path = args.get("path", "")
         body = args.get("body")
-        result = query_api(method, path, body)
-        
+        authorize = args.get("authorize", True)  # Default to True for backward compatibility
+        result = query_api(method, path, body, authorize)
+
         if result["success"]:
             # Format the response
             output = f"Status: {result['status_code']}\n"
